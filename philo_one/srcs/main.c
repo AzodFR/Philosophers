@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 13:59:56 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/15 15:16:40 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/15 15:27:08 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ t_params	*init_params(int ac, char **av)
 	if (!(p = malloc(sizeof(t_params))))
 		return (NULL);
 	gettimeofday(&p->start, NULL);
+	if (ac < 5 || ac > 6)
+		return (p);
 	p->phils = ft_atoi(av[1]);
 	p->forks = ft_atoi(av[1]);
 	p->ttd = ft_atoi(av[2]);
@@ -49,9 +51,9 @@ int		main(int ac, char **av)
 {
 	t_params *p;
 	
-	if (ac < 5 || ac > 6)
-		return (print_error("Incorrect number of arguments !"));
 	p = init_params(ac, av);
+	if (ac < 5 || ac > 6)
+		return (print_error("Incorrect number of arguments !", p));
 	print_params(p);
 	free(p);
 	return (0);
