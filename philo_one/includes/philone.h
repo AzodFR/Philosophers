@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:00:45 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/16 11:05:29 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/16 13:05:29 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 typedef struct		s_philos
 {
 	int				id;
-	int				tts;
+	int				eat;
 	pthread_t		thread;
 	struct s_params *p;
 }					t_philos;
@@ -36,9 +36,28 @@ typedef struct		s_params
 	int				tts;
 	int				noe;
 	pthread_mutex_t	**fork;
-	t_philos		*philo;
+	t_philos		**philo;
 }					t_params;
+/*
+**	UTILS.C
+*/
 int			ft_atoi(const char *nbtr);
 int			print_error(char *s, t_params *p);
 void		prefix(t_params *p);
+void		print_action(t_philos *p, char *s);
+/*
+**	INITER.C
+*/
+void		init_philos(t_params *p);
+t_params	*init_params(int ac, char **av);
+/*
+**	ACTIONS.C
+*/
+void	sleeping(t_philos *p);
+void	thinking(t_philos *p);
+void	*simulate(void *philo);
+/*
+**	DEBUG.C
+*/
+void	print_params(t_params *p);
 #endif

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:10:05 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/15 15:24:26 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/16 11:33:32 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,12 @@ void	prefix(t_params *p)
 	printf("%.0f [\033[93mPhilosophers\033[0m] ", (double)
 	(actual.tv_usec - p->start.tv_usec) / 1000 + (double)
 	(actual.tv_sec - p->start.tv_sec) * 1000);
+}
+void	print_action(t_philos *p, char *s)
+{
+	struct timeval	actual;
+	gettimeofday(&actual, NULL);
+	printf("%.0f Philosopher %d %s\n", (double)
+	(actual.tv_usec - p->p->start.tv_usec) / 1000 + (double)
+	(actual.tv_sec - p->p->start.tv_sec) * 1000, p->id, s);
 }

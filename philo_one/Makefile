@@ -4,7 +4,8 @@ FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 CC = gcc $(FLAGS)
 
-FILES = srcs/main.c srcs/utils.c
+FILES = srcs/main.c srcs/utils.c srcs/actions.c \
+		srcs/initer.c srcs/debug.c
 
 INC = includes/
 

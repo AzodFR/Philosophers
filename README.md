@@ -20,6 +20,7 @@
 
 `pthread_mutex_unlock` ==> Unlock a mutex
 
+
 ## Lexical 
 
 `Thread` ==> Independant set of values for the processor register
