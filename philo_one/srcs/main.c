@@ -6,40 +6,56 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 13:59:56 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/16 13:21:47 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 15:59:58 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philone.h"
 
-int		check_life(t_params *p)
+int			check_time(int	time, t_params *p)
+{
+	struct timeval	actual;
+
+	gettimeofday(&actual, NULL);
+	if (time >= get_time(p))
+		return (1);
+	return (0);
+}
+
+void		check_life(t_params *p)
 {
 	int i;
 
-	i = -1;
-	while (++i < p->nphils)
+	while (1)
 	{
-		if (p->philo[i]->eat == 0)
+		i = -1;
+		while (++i < p->nphils)
 		{
-			prefix(p);
-			printf("Philosophe %d died\n", i);
-			return (0);
+			if (!is_alive(p->philo[i]))
+			{
+				print_action(p->philo[i], "died");
+				return ;
+			}
 		}
 	}
-	return (1);
 }
 
 int		main(int ac, char **av)
 {
 	t_params *p;
-	
+	int		i;
 	p = init_params(ac, av);
 	if (ac < 5 || ac > 6)
 		return (print_error("Incorrect number of arguments !", p));
 	print_params(p);
 	init_philos(p);
-	while (check_life(p))
-		;
+	check_life(p);
+	i = -1;
+	while (++i < p->nphils)
+	{
+		pthread_mutex_destroy(p->fork[i]);
+		free(p->philo[i]);
+	}
 	free(p->fork);
 	free(p->philo);
 	free(p);

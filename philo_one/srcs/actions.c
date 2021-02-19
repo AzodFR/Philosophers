@@ -6,22 +6,47 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 11:58:35 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/16 13:22:32 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 16:00:25 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philone.h"
 
-void	sleeping(t_philos *p)
+int		is_alive(t_philos *p)
 {
-	print_action(p, "is sleeping");
-	usleep(p->p->tts * 1000);
+	if (!p->eat)
+		return (0);
+	if (!check_time(p->deadtime, p->p))
+		return (0);
+	return (1);
 }
 
-void	thinking(t_philos *p)
+void	sleeping(t_philos *p)
 {
-	print_action(p, "is thinking");
+	pthread_mutex_lock(&(p->mutex));
+	if (is_alive(p))
+		print_action(p, "is sleeping");
 	usleep(p->p->tts * 1000);
+	pthread_mutex_unlock(&(p->mutex));
+}
+
+void	try_to_eat(t_philos *p)
+{
+	struct timeval	actual;
+
+	pthread_mutex_lock(&(p->mutex));
+	pthread_mutex_lock(p->p->fork[p->id]);
+	print_action(p, "has taken a fork");
+	pthread_mutex_lock(p->p->fork[(p->id + 1) % p->p->nphils]);
+	print_action(p, "has taken a fork");
+	print_action(p, "eat");
+	usleep(p->p->tte * 1000);
+	p->eat -= 1;
+	gettimeofday(&actual, NULL);
+	p->deadtime = get_time(p->p) + p->p->ttd;
+	pthread_mutex_unlock(p->p->fork[p->id]);
+	pthread_mutex_unlock(p->p->fork[(p->id + 1) % p->p->nphils]);
+	pthread_mutex_unlock(&(p->mutex));
 }
 
 void	*simulate(void *philo)
@@ -31,12 +56,9 @@ void	*simulate(void *philo)
 	p = philo;
 	while ((*p)->eat != 0)
 	{
-		//printf("\033[92m Philo %d -> eat: %d\033[0m\n", (*p)->id, (*p)->eat);
+		print_action(*p, "is thinking");
+		try_to_eat(*p);
 		sleeping(*p);
-		thinking(*p);
-		(*p)->eat -= 1;
 	}
-	prefix((*p)->p);
-	printf("died\n");
 	return (philo);
 }
