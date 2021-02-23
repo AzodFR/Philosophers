@@ -6,16 +6,26 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:10:05 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/19 15:50:42 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 12:51:21 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philone.h"
 
-int		print_error(char *s, t_params *p)
+int			print_error(char *s, t_params *p)
 {
+	int		i;
+
 	prefix(p);
 	printf("\033[91m%s\033[0m\n", s);
+	if (!p)
+		return (1);
+	i = -1;
+	while (++i < p->nphils)
+		pthread_mutex_destroy(p->fork[i]);
+	pthread_mutex_destroy(&p->mutex);
+	free(p->fork);
+	free(p->philo);
 	free(p);
 	return (1);
 }
@@ -47,29 +57,33 @@ int			ft_atoi(const char *nbtr)
 	return (neg ? -nb : nb);
 }
 
-void	prefix(t_params *p)
+void		prefix(t_params *p)
 {
 	struct timeval	actual;
+
 	gettimeofday(&actual, NULL);
-	printf("%.0f [\033[93mPhilosophers\033[0m] ", (double)
+	printf("%.0f [\033[93mPhilosophers\033[0m] ", p ? (double)
 	(actual.tv_usec - p->start.tv_usec) / 1000 + (double)
-	(actual.tv_sec - p->start.tv_sec) * 1000);
+	(actual.tv_sec - p->start.tv_sec) * 1000 : 0);
 }
-void	print_action(t_philos *p, char *s)
+
+void		print_action(t_philos *p, char *s)
 {
 	struct timeval	actual;
 
+	pthread_mutex_lock(&p->p->mutex);
 	gettimeofday(&actual, NULL);
-	printf("%.0f \033[9%dm Philosopher %d %s\033[0m\n", (double)
+	printf("%.0f \033[9%dm%d %s\033[0m\n", (double)
 	(actual.tv_usec - p->p->start.tv_usec) / 1000 + (double)
-	(actual.tv_sec - p->p->start.tv_sec) * 1000, p->id + 1, p->id, s);
+	(actual.tv_sec - p->p->start.tv_sec) * 1000, p->id % 6 + 1, p->id + 1, s);
+	pthread_mutex_unlock(&p->p->mutex);
 }
 
-int		get_time(t_params *p)
+double		get_time(t_params *p)
 {
 	struct timeval	actual;
 
 	gettimeofday(&actual, NULL);
-	return ((actual.tv_usec - p->start.tv_usec) / 1000 + 
-	(actual.tv_sec - p->start.tv_sec) * 1000);
+	return ((double)(actual.tv_usec - p->start.tv_usec) / 1000 +
+	(double)(actual.tv_sec - p->start.tv_sec) * 1000);
 }

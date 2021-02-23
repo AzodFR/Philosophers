@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:12:58 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/16 12:13:11 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 10:31:17 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,15 @@ void	print_params(t_params *p)
 	printf("\033[34mTime to sleep: \033[92m%d\033[0m\n", p->tts);
 	prefix(p);
 	printf("\033[34mNumber of eating max: \033[92m%d\033[0m\n", p->noe);
+}
+
+int		isalldigit(char *s)
+{
+	int		i;
+
+	i = -1;
+	while (s[++i])
+		if (s[i] < '0' || s[i] > '9')
+			return (0);
+	return (1);
 }

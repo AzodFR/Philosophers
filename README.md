@@ -1,28 +1,31 @@
 # Philosophers
 
-## Research about unknown function
+## Philo_one
 
-`usleep` ==> suspend thread execution (in microsecond) // 0: OK -1: Fail
+### Rules
 
-`gettimeofday` ==> get time from (01/01/1970) // timeval tv_sec & tv_usec // ingore timezone
+* Usage of mutex
+* 1 fork between each philo
+* 1 philo = 1 thread
 
-`pthread_create` ==> Create new thread
+### Method
 
-`pthread_detach` ==> Marks a thread deletion
+The philosophers always take their left fork before the right, but at the creation, we create the left fork.
+Like this, the last philosopher's left fork is the fork 0 (by making (N + 1) % N_MAX)
 
-`pthread_join` ==> Make a thread wait another
+## Philo_two
 
-`pthread_mutex_init` ==> Init a mutex with specified attributes
+### Rules
 
-`pthread_mutex_destroy` ==> Destroy a mutex
+* Usage of semaphore
+* Each fork are at the center of the table
+* 1 philo = 1 thread
 
-`pthread_mutex_lock` ==> Lock a mutex and block it until it becomes available
+##Philo_three
 
-`pthread_mutex_unlock` ==> Unlock a mutex
+### Rules
 
-
-## Lexical 
-
-`Thread` ==> Independant set of values for the processor register
-
-`Mutex` ==> Prevent a ressource to be used by 2 threads at the same time
+* Usage of semaphore
+* Each fork are at the center of the table
+* 1 philo = 1 process
+* Main process != philo

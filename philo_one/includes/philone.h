@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:00:45 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/19 15:51:31 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 11:34:51 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct		s_philos
 	pthread_mutex_t mutex;
 	int				id;
 	int				eat;
-	int				deadtime;
+	double				deadtime;
 	pthread_t		thread;
 	struct s_params *p;
 }					t_philos;
@@ -37,7 +37,8 @@ typedef struct		s_params
 	int				tte;
 	int				tts;
 	int				noe;
-	int				dead;
+	int				error;
+	pthread_mutex_t mutex;
 	pthread_mutex_t	**fork;
 	t_philos		**philo;
 }					t_params;
@@ -48,12 +49,12 @@ int			ft_atoi(const char *nbtr);
 int			print_error(char *s, t_params *p);
 void		prefix(t_params *p);
 void		print_action(t_philos *p, char *s);
-int			get_time(t_params *p);
+double			get_time(t_params *p);
 /*
 **	INITER.C
 */
 void		init_philos(t_params *p);
-t_params	*init_params(int ac, char **av);
+t_params	*init_params(int i, int ac, char **av);
 /*
 **	ACTIONS.C
 */
@@ -66,4 +67,5 @@ int		is_alive(t_philos *p);
 */
 void	print_params(t_params *p);
 int		check_time(int	time, t_params *p);
+int		isalldigit(char *s);
 #endif
