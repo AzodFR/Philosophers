@@ -6,20 +6,16 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:13:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/23 12:55:40 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/23 15:14:02 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philone.h"
+#include "philtwo.h"
 
-t_params		*init_forks(int i, t_params *p)
+t_params		*init_forks(t_params *p)
 {
-	while (++i < p->nphils)
-	{
-		if (!(p->fork[i] = malloc(sizeof(pthread_mutex_t))))
-			return (NULL);
-		pthread_mutex_init(p->fork[i], NULL);
-	}
+	if (!(p->forks = sem_open("forks", O_CREAT, 0660, p->nphils)))
+		return (NULL);
 	return (p);
 }
 
@@ -34,9 +30,9 @@ t_params		*init_params(int i, int ac, char **av)
 	p->nphils = ft_atoi(av[1]);
 	if (!(p->philo = malloc(p->nphils * sizeof(t_philos*))))
 		return (NULL);
-	if (!(p->fork = malloc(p->nphils * sizeof(pthread_mutex_t *))))
+	if (!(p->mutex = sem_open("main", 0)))
 		return (NULL);
-	if (!(p = init_forks(-1, p)))
+	if (!(p = init_forks(p)))
 		return (NULL);
 	p->ttd = ft_atoi(av[2]);
 	p->tte = ft_atoi(av[3]);
@@ -45,7 +41,6 @@ t_params		*init_params(int i, int ac, char **av)
 		p->noe = -1;
 	else
 		p->noe = ft_atoi(av[5]);
-	pthread_mutex_init(&p->mutex, NULL);
 	while (av[++i])
 		if (p->nphils < 2 || !isalldigit(av[i]))
 			p->error = 1;
@@ -66,7 +61,7 @@ void			init_philos(t_params *p)
 		p->philo[i]->p = p;
 		gettimeofday(&actual, NULL);
 		p->philo[i]->deadtime = (get_time(p)) + p->ttd;
-		pthread_mutex_init(&(p->philo[i]->mutex), NULL);
+		p->philo[i]->mutex = sem_open("philo", 0);
 		pthread_create(&p->philo[i]->thread, NULL, simulate, &p->philo[i]);
 		pthread_detach(p->philo[i]->thread);
 		pthread_join(p->philo[i]->thread, NULL);
