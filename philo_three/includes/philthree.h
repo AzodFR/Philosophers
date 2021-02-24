@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philtwo.h                                          :+:      :+:    :+:   */
+/*   philthree.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:00:45 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/24 14:47:06 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 14:47:01 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILTWO_H
-# define PHILTWO_H
+#ifndef PHILTHREE_H
+# define PHILTHREE_H
 # include <pthread.h>
 # include <sys/time.h>
 # include <semaphore.h>

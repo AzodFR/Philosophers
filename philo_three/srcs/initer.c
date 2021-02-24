@@ -6,11 +6,11 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:13:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/24 14:51:13 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 14:53:04 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philtwo.h"
+#include "philthree.h"
 
 t_params		*init_forks(t_params *p)
 {
@@ -47,6 +47,15 @@ t_params		*init_params(int i, int ac, char **av)
 	return (p);
 }
 
+void			*launch(void	*p)
+{
+	int		pid;
+	
+	if (!(pid = fork()))
+		simulate(p);
+	return (p);
+}
+
 void			init_philos(t_params *p)
 {
 	struct timeval	actual;
@@ -62,7 +71,7 @@ void			init_philos(t_params *p)
 		gettimeofday(&actual, NULL);
 		p->philo[i]->deadtime = (get_time(p)) + p->ttd;
 		p->philo[i]->mutex = sem_open("philo", 0);
-		pthread_create(&p->philo[i]->thread, NULL, simulate, &p->philo[i]);
+		pthread_create(&p->philo[i]->thread, NULL, launch, &p->philo[i]);
 		pthread_detach(p->philo[i]->thread);
 		pthread_join(p->philo[i]->thread, NULL);
 		usleep(5000);
