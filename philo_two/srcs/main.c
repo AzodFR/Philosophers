@@ -6,13 +6,13 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 13:59:56 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/23 15:15:10 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 13:40:10 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philtwo.h"
 
-int			check_time(int time, t_params *p)
+int				check_time(int time, t_params *p)
 {
 	struct timeval	actual;
 
@@ -22,7 +22,7 @@ int			check_time(int time, t_params *p)
 	return (0);
 }
 
-void		check_life(t_params *p)
+static void		check_life(t_params *p)
 {
 	int i;
 	int	j;
@@ -41,23 +41,33 @@ void		check_life(t_params *p)
 			{
 				p->end = 1;
 				print_action(p->philo[i], "died");
+				sem_wait(p->mutex);
+				stopping(p);
 				return ;
 			}
 		}
 	}
 }
 
-void		unlink_sem(void)
+t_params		*get_p(t_params *p)
+{
+	static t_params *pa = NULL;
+
+	if (p)
+		pa = p;
+	return (pa);
+}
+
+void			unlink_sem(void)
 {
 	sem_unlink("main");
 	sem_unlink("forks");
 	sem_unlink("philo");
 }
 
-int			main(int ac, char **av)
+int				main(int ac, char **av)
 {
 	t_params	*p;
-	int			i;
 
 	unlink_sem();
 	if (ac < 5 || ac > 6)
@@ -67,19 +77,8 @@ int			main(int ac, char **av)
 	if (p->error)
 		return (print_error("Invalid(s) parameter(s) !", p));
 	p->end = 0;
+	get_p(p);
 	init_philos(p);
 	check_life(p);
-	i = -1;
-	while (++i < p->nphils)
-	{
-		pthread_detach(p->philo[i]->thread);
-		sem_close(p->philo[i]->mutex);
-		free(p->philo[i]);
-	}
-	sem_close(p->mutex);
-	sem_close(p->forks);
-	unlink_sem();
-	free(p->philo);
-	free(p);
 	return (0);
 }

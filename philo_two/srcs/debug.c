@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:12:58 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/23 15:14:02 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 13:35:11 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_params(t_params *p)
 	prefix(p);
 	printf("\033[34mN of Philo and Forks: \033[92m%d\033[0m\n", p->nphils);
 	prefix(p);
-	printf("\033[34mTime to die: \033[92m%d\033[0m\n", p->ttd);
+	printf("\033[34mTime to die: \033[92m%f\033[0m\n", p->ttd);
 	prefix(p);
 	printf("\033[34mTime to eat: \033[92m%d\033[0m\n", p->tte);
 	prefix(p);
@@ -35,4 +35,21 @@ int		isalldigit(char *s)
 		if (s[i] < '0' || s[i] > '9')
 			return (0);
 	return (1);
+}
+
+void	stopping(t_params *p)
+{
+	int		i;
+
+	i = -1;
+	sem_close(p->mutex);
+	while (++i < p->nphils)
+	{
+		pthread_detach(p->philo[i]->thread);
+		sem_close(p->philo[i]->mutex);
+		free(p->philo[i]);
+	}
+	unlink_sem();
+	free(p->philo);
+	free(p);
 }

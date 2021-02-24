@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 11:58:35 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/23 11:36:24 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 13:43:13 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,12 @@ void	sleeping(t_philos *p)
 
 void	try_to_eat(t_philos *p)
 {
-	struct timeval	actual;
-
 	pthread_mutex_lock(&(p->mutex));
 	pthread_mutex_lock(p->p->fork[p->id]);
 	print_action(p, "has taken a fork");
 	pthread_mutex_lock(p->p->fork[(p->id + 1) % p->p->nphils]);
 	print_action(p, "has taken a fork");
 	print_action(p, "eat");
-	gettimeofday(&actual, NULL);
 	p->deadtime = get_time(p->p) + p->p->ttd;
 	usleep(p->p->tte * 1000);
 	p->eat -= 1;

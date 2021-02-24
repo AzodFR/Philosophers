@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:00:45 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/23 15:14:28 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/24 13:40:50 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+
+int g_end;
 
 typedef struct		s_philos
 {
@@ -34,7 +36,7 @@ typedef struct		s_params
 {
 	struct timeval	start;
 	int				nphils;
-	int				ttd;
+	double				ttd;
 	int				tte;
 	int				tts;
 	int				noe;
@@ -60,8 +62,6 @@ t_params	*init_params(int i, int ac, char **av);
 /*
 **	ACTIONS.C
 */
-void	sleeping(t_philos *p);
-void	thinking(t_philos *p);
 void	*simulate(void *philo);
 int		is_alive(t_philos *p);
 /*
@@ -70,4 +70,8 @@ int		is_alive(t_philos *p);
 void	print_params(t_params *p);
 int		check_time(int	time, t_params *p);
 int		isalldigit(char *s);
+void	stopping(t_params *p);
+void		unlink_sem(void);
+
+t_params	*get_p(t_params *p);
 #endif
