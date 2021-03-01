@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:13:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/24 14:53:04 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 13:19:52 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_params		*init_params(int i, int ac, char **av)
 	p->nphils = ft_atoi(av[1]);
 	if (!(p->philo = malloc(p->nphils * sizeof(t_philos*))))
 		return (NULL);
+	if (!(p->pid = malloc(p->nphils * sizeof(int))))
+		return (NULL);
 	if (!(p->mutex = sem_open("main", 0)))
 		return (NULL);
 	if (!(p = init_forks(p)))
@@ -42,15 +44,14 @@ t_params		*init_params(int i, int ac, char **av)
 	else
 		p->noe = ft_atoi(av[5]);
 	while (av[++i])
-		if (p->nphils < 2 || !isalldigit(av[i]))
-			p->error = 1;
+		p->error = (p->nphils < 2 || !isalldigit(av[i])) ? 1 : p->error;
 	return (p);
 }
 
-void			*launch(void	*p)
+void			*launch(void *p)
 {
 	int		pid;
-	
+
 	if (!(pid = fork()))
 		simulate(p);
 	return (p);
@@ -71,9 +72,9 @@ void			init_philos(t_params *p)
 		gettimeofday(&actual, NULL);
 		p->philo[i]->deadtime = (get_time(p)) + p->ttd;
 		p->philo[i]->mutex = sem_open("philo", 0);
-		pthread_create(&p->philo[i]->thread, NULL, launch, &p->philo[i]);
-		pthread_detach(p->philo[i]->thread);
-		pthread_join(p->philo[i]->thread, NULL);
+		p->pid[i] = fork();
+		if (!p->pid[i])
+			simulate(&(p->philo[i]));
 		usleep(5000);
 	}
 }

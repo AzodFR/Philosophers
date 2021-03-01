@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:00:45 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/24 14:47:01 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 11:51:03 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 # define PHILTHREE_H
 # include <pthread.h>
 # include <sys/time.h>
+# include <signal.h>
 # include <semaphore.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 
+int g_end;
 typedef struct		s_philos
 {
 	sem_t			*mutex;
@@ -40,6 +42,7 @@ typedef struct		s_params
 	int				noe;
 	int				error;
 	int				end;
+	int				*pid;
 	sem_t			*mutex;
 	sem_t			*forks;
 	t_philos		**philo;

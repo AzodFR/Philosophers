@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 13:59:56 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/24 14:46:44 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 13:16:17 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,30 @@ int				check_time(int time, t_params *p)
 
 static void		check_life(t_params *p)
 {
-	int i;
-	int	j;
+	int		i;
+	int		status;
+	pid_t	tmp;
 
-	while (1)
+	i = -1;
+	while (++i != p->nphils)
+	{
+		status = 0;
+		tmp = -1;
+		while (!status && tmp <= 0)
+			tmp = waitpid(-1, &status, 0);
+		if (status == 256)
+			break ;
+	}
+	if (status == 256)
 	{
 		i = -1;
-		j = 0;
 		while (++i < p->nphils)
-		{
-			if (!p->philo[i]->eat)
-				j++;
-			if (j == p->nphils)
-				return ;
-			if (!is_alive(p->philo[i]))
-			{
-				p->end = 1;
+			if (tmp != p->pid[i])
+				kill(p->pid[i], SIGKILL);
+			else
 				print_action(p->philo[i], "died");
-				sem_wait(p->mutex);
-				stopping(p);
-				return ;
-			}
-		}
 	}
+	stopping(p);
 }
 
 t_params		*get_p(t_params *p)

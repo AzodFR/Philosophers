@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 11:58:35 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/24 14:52:36 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 13:24:28 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,28 @@ static void	sleeping(t_philos *p)
 
 static void	try_to_eat(t_philos *p)
 {
+	sem_wait(p->mutex);
+	sem_wait(get_p(NULL)->forks);
+	print_action(p, "has taken a fork");
+	sem_wait(get_p(NULL)->forks);
+	print_action(p, "has taken a fork");
 	p->eat -= 1;
 	print_action(p, "eat");
 	p->deadtime = get_time(get_p(NULL)) + get_p(NULL)->ttd;
 	usleep(get_p(NULL)->tte * 1000);
 	sem_post(get_p(NULL)->forks);
 	sem_post(get_p(NULL)->forks);
-	if (get_p(NULL)->end)
-		exit(0) ;
 	sem_post(p->mutex);
 }
 
-static void	wait_forks(t_philos *p)
+void		*while_alive(void *p)
 {
-	sem_wait(p->mutex);
-	sem_wait(get_p(NULL)->forks);
-	if (get_p(NULL)->end)
-		exit (0) ;
-	print_action(p, "has taken a fork");
-	sem_wait(get_p(NULL)->forks);
-	if (get_p(NULL)->end)
-		exit (0) ;
-	print_action(p, "has taken a fork");
+	while (1)
+		if (!is_alive(p))
+			exit(1);
+		else if (!((t_philos *)p)->eat)
+			break ;
+	return (NULL);
 }
 
 void		*simulate(void *philo)
@@ -61,19 +61,17 @@ void		*simulate(void *philo)
 	t_philos	**p;
 
 	p = philo;
-	while (get_p(NULL)->end == 0 && (*p)->eat != 0)
+	pthread_create(&(*p)->thread, NULL, while_alive, (*p));
+	pthread_detach((*p)->thread);
+	pthread_join((*p)->thread, NULL);
+	while ((*p)->eat != 0)
 	{
 		print_action(*p, "is thinking");
-		wait_forks(*p);
-		if (get_p(NULL)->end)
-			exit (0);
 		try_to_eat(*p);
-		if (get_p(NULL)->end)
-			exit (0);
 		if ((*p)->eat)
 			sleeping(*p);
 	}
 	(*p)->deadtime = -1;
-	exit (0);
+	exit(0);
 	return (philo);
 }

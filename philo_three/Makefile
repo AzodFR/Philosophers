@@ -1,6 +1,6 @@
 NAME = philo_three
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 CC = gcc $(FLAGS)
 
