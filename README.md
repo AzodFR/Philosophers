@@ -21,7 +21,11 @@ Like this, the last philosopher's left fork is the fork 0 (by making (N + 1) % N
 * Each fork are at the center of the table
 * 1 philo = 1 thread
 
-##Philo_three
+### Method
+
+Using semaphore to remake mutex for blocking multiple write, and all forks are in a mutex
+
+## Philo_three
 
 ### Rules
 
@@ -29,3 +33,10 @@ Like this, the last philosopher's left fork is the fork 0 (by making (N + 1) % N
 * Each fork are at the center of the table
 * 1 philo = 1 process
 * Main process != philo
+
+### Method
+
+The life checker is not in the main process anymore, but we fork() each philo to make multi process
+and the life checker is in a multi thread inside those forks. Still usign semaphore, the main process 
+check the exit status (the state and the number), to check if a philo died (exit 1) or if each philo
+eated as much as they can (exit 0 * N_MAX ?)
