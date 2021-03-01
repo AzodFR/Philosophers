@@ -6,13 +6,13 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 13:59:56 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/23 12:50:53 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 17:21:25 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philone.h"
 
-int			check_time(int time, t_params *p)
+int			check_time(double time, t_params *p)
 {
 	struct timeval	actual;
 

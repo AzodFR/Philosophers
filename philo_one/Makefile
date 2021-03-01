@@ -1,6 +1,6 @@
 NAME = philo_one
 
-FLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 
 CC = gcc $(FLAGS)
 

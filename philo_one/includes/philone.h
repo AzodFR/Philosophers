@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:00:45 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/23 11:34:51 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/01 17:16:43 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ int		is_alive(t_philos *p);
 **	DEBUG.C
 */
 void	print_params(t_params *p);
-int		check_time(int	time, t_params *p);
+int		check_time(double	time, t_params *p);
 int		isalldigit(char *s);
 #endif
