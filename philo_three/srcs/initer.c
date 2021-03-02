@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:13:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/03/01 17:31:35 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 10:45:58 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ void			init_philos(t_params *p)
 		p->pid[i] = fork();
 		if (!p->pid[i])
 			simulate(&(p->philo[i]));
-		usleep(5000);
+		usleep(2000);
 	}
 }

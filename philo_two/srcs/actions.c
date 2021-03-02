@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 11:58:35 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/24 13:41:01 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 10:40:02 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@ static void	try_to_eat(t_philos *p)
 	sem_post(get_p(NULL)->forks);
 	if (get_p(NULL)->end)
 		return ;
-	sem_post(p->mutex);
 }
 
 static void	wait_forks(t_philos *p)
 {
-	sem_wait(p->mutex);
 	sem_wait(get_p(NULL)->forks);
 	if (get_p(NULL)->end)
 		return ;

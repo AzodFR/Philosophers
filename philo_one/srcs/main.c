@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 13:59:56 by thjacque          #+#    #+#             */
-/*   Updated: 2021/03/01 17:21:25 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/02 10:52:37 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int			check_time(double time, t_params *p)
 	struct timeval	actual;
 
 	gettimeofday(&actual, NULL);
-	if (time >= get_time(p))
+	if (time >= get_time(p) - 2)
 		return (1);
 	return (0);
 }
@@ -58,7 +58,6 @@ int			main(int ac, char **av)
 		return (print_error("Malloc error !", NULL));
 	if (p->error)
 		return (print_error("Invalid(s) parameter(s) !", p));
-	print_params(p);
 	init_philos(p);
 	check_life(p);
 	i = -1;
