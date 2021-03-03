@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:13:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/03/02 10:45:58 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/03 11:59:09 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,6 @@ t_params		*init_params(int i, int ac, char **av)
 		p->noe = ft_atoi(av[5]);
 	while (av[++i])
 		p->error = (p->nphils < 2 || !isalldigit(av[i])) ? 1 : p->error;
-	return (p);
-}
-
-void			*launch(void *p)
-{
-	int		pid;
-
-	if (!(pid = fork()))
-		simulate(p);
 	return (p);
 }
 

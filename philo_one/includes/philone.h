@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 14:00:45 by thjacque          #+#    #+#             */
-/*   Updated: 2021/03/02 10:31:23 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/03 12:00:59 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ typedef struct		s_philos
 	pthread_mutex_t mutex;
 	int				id;
 	int				eat;
-	double				deadtime;
+	double			deadtime;
 	pthread_t		thread;
-	struct s_params *p;
+	struct s_params	*p;
 }					t_philos;
-
-
 typedef struct		s_params
 {
 	struct timeval	start;
@@ -45,27 +43,27 @@ typedef struct		s_params
 /*
 **	UTILS.C
 */
-int			ft_atoi(const char *nbtr);
-int			print_error(char *s, t_params *p);
-void		prefix(t_params *p);
-void		print_action(t_philos *p, char *s);
-double			get_time(t_params *p);
+int					ft_atoi(const char *nbtr);
+int					print_error(char *s, t_params *p);
+void				prefix(t_params *p);
+void				print_action(t_philos *p, char *s);
+double				get_time(t_params *p);
 /*
 **	INITER.C
 */
-void		init_philos(t_params *p);
-t_params	*init_params(int i, int ac, char **av);
+void				init_philos(t_params *p);
+t_params			*init_params(int i, int ac, char **av);
 /*
 **	ACTIONS.C
 */
-void	sleeping(t_philos *p);
-void	thinking(t_philos *p);
-void	*simulate(void *philo);
-int		is_alive(t_philos *p);
+void				sleeping(t_philos *p);
+void				thinking(t_philos *p);
+void				*simulate(void *philo);
+int					is_alive(t_philos *p);
 /*
 **	DEBUG.C
 */
-void	print_params(t_params *p);
-int		check_time(double	time, t_params *p);
-int		isalldigit(char *s);
+void				print_params(t_params *p);
+int					check_time(double	time, t_params *p);
+int					isalldigit(char *s);
 #endif

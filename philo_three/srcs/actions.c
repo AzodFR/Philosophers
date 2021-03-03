@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 11:58:35 by thjacque          #+#    #+#             */
-/*   Updated: 2021/03/01 13:24:28 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/03 15:50:26 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,21 @@
 
 int			is_alive(t_philos *p)
 {
-	if (p->deadtime == -1)
+	double	deadtime;
+
+	sem_wait(p->mutex);
+	deadtime = p->deadtime;
+	if (deadtime == -1)
+	{
+		sem_post(p->mutex);
 		return (1);
-	if (!check_time(p->deadtime, get_p(NULL)))
+	}
+	if (!check_time(deadtime, get_p(NULL)))
+	{
+		sem_post(p->mutex);
 		return (0);
+	}
+	sem_post(p->mutex);
 	return (1);
 }
 
