@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 12:13:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/03/02 10:39:29 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/06 12:00:38 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,5 @@ void			init_philos(t_params *p)
 		pthread_create(&p->philo[i]->thread, NULL, simulate, &p->philo[i]);
 		pthread_detach(p->philo[i]->thread);
 		pthread_join(p->philo[i]->thread, NULL);
-		usleep(2000);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/15 13:59:56 by thjacque          #+#    #+#             */
-/*   Updated: 2021/03/02 10:52:37 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/03/04 14:07:06 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int			check_time(double time, t_params *p)
 	struct timeval	actual;
 
 	gettimeofday(&actual, NULL);
-	if (time >= get_time(p) - 2)
+	if (time >= get_time(p) - 5)
 		return (1);
 	return (0);
 }
